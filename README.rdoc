@@ -29,7 +29,7 @@ Rake tasks are not automatically loaded from gems, so you’ll need to add the f
 == Configure
 
 In config/heroku.yml you will need add the Heroku apps that you would like to attach to this project. You can generate this file and edit it by running:
-  
+
   rake heroku:create_config
 
 If this is a fresh project, heroku_san can create all the applications for
@@ -68,8 +68,8 @@ A full list of tasks provided:
   rake all                   # Select all Heroku apps for later command
   rake console               # Opens a remote console
   rake deploy                # Deploys, migrates and restarts latest code.
-  rake after_deploy          # Callback after deploys
-  rake before_deploy         # Callback before deploys
+  rake after_deploy          # Callback run after each environment's deploy
+  rake before_deploy         # Callback run before each environment's deploy
   rake capture               # Captures a bundle on Heroku
   rake heroku:apps           # Lists configured apps
   rake heroku:create         # Creates the Heroku app
