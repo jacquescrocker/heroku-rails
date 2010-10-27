@@ -110,7 +110,7 @@ desc "Deploys, migrates and restarts latest code"
 task :deploy do
   each_heroku_app do |name, app, repo|
     @heroku_app = {:name => name, :app => app, :repo => repo}
-    Rake::Task[:before_deploy].execute
+    Rake::Task[:before_deploy].invoke
     branch = `git branch`.scan(/^\* (.*)\n/).flatten.first.to_s
     if branch.present?
       @git_push_arguments ||= []
@@ -120,7 +120,7 @@ task :deploy do
       exit(1)
     end
   end
-  Rake::Task[:after_deploy].execute
+  Rake::Task[:after_deploy].invoke
 end
 
 desc "Callback before deploys"
