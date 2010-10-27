@@ -68,8 +68,10 @@ A full list of tasks provided:
   rake all                   # Select all Heroku apps for later command
   rake console               # Opens a remote console
   rake deploy                # Deploys, migrates and restarts latest code.
-  rake after_deploy          # Callback run after each environment's deploy
-  rake before_deploy         # Callback run before each environment's deploy
+  rake after_deploy          # Callback run after the overall deploy
+  rake after_each_deploy     # Callback run after each environment's deploy
+  rake before_deploy         # Callback run before the overall deploy
+  rake before_each_deploy    # Callback run before each environment's deploy
   rake capture               # Captures a bundle on Heroku
   rake heroku:apps           # Lists configured apps
   rake heroku:create         # Creates the Heroku app

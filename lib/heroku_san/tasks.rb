@@ -107,10 +107,10 @@ namespace :heroku do
 end
 
 desc "Deploys, migrates and restarts latest code"
-task :deploy do
+task :deploy => :before_deploy do
   each_heroku_app do |name, app, repo|
     @heroku_app = {:name => name, :app => app, :repo => repo}
-    Rake::Task[:before_deploy].invoke
+    Rake::Task[:before_each_deploy].invoke
     branch = `git branch`.scan(/^\* (.*)\n/).flatten.first.to_s
     if branch.present?
       @git_push_arguments ||= []
@@ -119,17 +119,27 @@ task :deploy do
       puts "Unable to determine the current git branch, please checkout the branch you'd like to deploy"
       exit(1)
     end
+    Rake::Task[:after_each_deploy].invoke
   end
-  Rake::Task[:after_deploy].invoke
+  Rake::Task[:after_deploy].execute
 end
 
-desc "Callback before deploys"
+desc "Callback before all deploys"
 task :before_deploy do
 end
 
-desc "Callback after deploys"
+desc "Callback after all deploys"
 task :after_deploy do
 end
+
+desc "Callback before each deploy"
+task :before_each_deploy do
+end
+
+desc "Callback after each deploy"
+task :after_each_deploy do
+end
+
 
 desc "Force deploys, migrates and restarts latest code"
 task :force_deploy do
