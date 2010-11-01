@@ -1,5 +1,41 @@
 apps:
-  # shorthand: heroku app
   production: awesomeapp
   staging: awesomeapp-staging
-  demo: awesomeapp-demo
+  legacy: awesomeapp-legacy
+
+stacks:
+  all: bamboo-mri-1.9.2
+  legacy: bamboo-ree-1.8.7
+
+config:
+  all:
+    BUNDLE_WITHOUT: "test development"
+    CONFIG_VAR1: "config1"
+    CONFIG_VAR2: "config2"
+
+  production:
+    CONFIG_VAR1: "config1-production"
+
+  staging:
+    CONFIG_VAR1: "config1-staging"
+
+collaborators:
+  all:
+    - "my-heroku-email@somedomain.com"
+    - "another-heroku-email@somedomain.com"
+
+domains:
+  production:
+    - "awesomeapp.com"
+    - "www.awesomeapp.com"
+
+addons:
+  all:
+    # add any other addons here
+    - custom_domains:basic
+    - newrelic:bronze
+
+  production:
+    # list production env specific addons here
+    - ssl:piggyback
+    - cron:hourly
