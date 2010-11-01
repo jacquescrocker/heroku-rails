@@ -47,13 +47,13 @@ you, and set the RACK_ENV.
 After configuring your Heroku apps you can use rake tasks to control the
 apps.
 
-    rake production deploy
+    rake production heroku:deploy
 
 A rake task with the shorthand name of each app is now available and adds that
 server to the list that subsequent commands will execute on. Because this list
 is additive, you can easily select which servers to run a command on.
 
-    rake demo staging restart
+    rake demo staging heroku:restart
 
 A special rake task 'all' is created that causes any further commands to
 execute on all heroku apps.
@@ -70,26 +70,57 @@ Need to add remotes for each app?
 
 A full list of tasks provided:
 
-    rake all                   # Select all Heroku apps for later command
-    rake console               # Opens a remote console
-    rake deploy                # Deploys, migrates and restarts latest code.
-    rake after_deploy          # Callback run after the overall deploy
-    rake after_each_deploy     # Callback run after each environment's deploy
-    rake before_deploy         # Callback run before the overall deploy
-    rake before_each_deploy    # Callback run before each environment's deploy
-    rake capture               # Captures a bundle on Heroku
-    rake heroku:apps           # Lists configured apps
-    rake heroku:create         # Creates the Heroku app
-    rake heroku:create_config  # Creates an example configuration file
-    rake heroku:gems           # Generate the Heroku gems manifest from gem dependencies
-    rake heroku:remotes        # Add git remotes for all apps in this project
-    rake heroku:rack_env       # Add proper RACK_ENV to each application
-    rake heroku:share          # Adds a collaborator
-    rake heroku:unshare        # Removes a collaborator
-    rake migrate               # Migrates and restarts remote servers
-    rake restart               # Restarts remote servers
+    rake all                        # Select all Heroku apps for later command
+    rake heroku:console             # Opens a remote console
+    rake heroku:deploy              # Deploys, migrates and restarts latest code.
+    rake heroku:capture             # Captures a bundle on Heroku
+    rake heroku:apps                # Lists configured apps
+    rake heroku:create              # Creates the Heroku app
+    rake heroku:gems                # Generate the Heroku gems manifest from gem dependencies
+    rake heroku:remotes             # Add git remotes for all apps in this project
+    rake heroku:share               # Adds a collaborator
+    rake heroku:unshare             # Removes a collaborator
+    rake heroku:migrate             # Migrates and restarts remote servers
+    rake heroku:restart             # Restarts remote servers
 
-Frequently used tasks are not namespaced, everything else lives under heroku.
+    rake heroku:create_config       # Creates an example configuration file
+    rake heroku:rack_env            # Add proper RACK_ENV to each application
+
+You can easily alias frequently used tasks within your application's Rakefile:
+
+    task :deploy => ["heroku:deploy"]
+    task :console => ["heroku:console"]
+    task :capture => ["heroku:capture"]
+
+
+### Deploy Hooks
+
+You can easily hook into the deploy process by defining any of the following rake tasks:
+
+    namespace :heroku do
+
+      # runs before all the deploys complete
+      task :before_deploy do
+
+      end
+
+      # runs before each push to a particular heroku deploy environment
+      task :before_each_deploy do
+
+      end
+
+      # runs after each push to a particular heroku deploy environment
+      task :after_each_deploy do
+
+      end
+
+      # runs after all the deploys complete
+      task :after_deploy do
+
+      end
+
+    end
+
 
 ## About Heroku Rails
 
