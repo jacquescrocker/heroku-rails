@@ -18,24 +18,9 @@ namespace :heroku do
   desc "Creates the Heroku app"
   task :create do
     each_heroku_app do |heroku_env, heroku_app_name, repo|
+
+      # TODO: use the right stack
       system_with_echo "heroku create #{heroku_app_name}"
-    end
-  end
-
-  desc "Generate the Heroku gems manifest from gem dependencies"
-  task :gems => 'gems:base' do
-    RAILS_ENV='production'
-    Rake::Task[:environment].invoke
-    gems = Rails.configuration.gems.reject { |g| g.frozen? && !g.framework_gem? }
-    list = gems.collect do |g|
-      command, *options = g.send(:install_command)
-      options.join(" ")
-    end
-
-    list.unshift(%Q{rails --version "= #{Rails.version}"})
-
-    File.open(Rails.root.join('.gems'), 'w') do |f|
-      f.write(list.join("\n"))
     end
   end
 
