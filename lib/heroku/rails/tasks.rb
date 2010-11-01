@@ -1,5 +1,7 @@
 HEROKU_CONFIG_FILE = Rails.root.join('config', 'heroku.yml')
-HEROKU_CONFIG = HerokuSan::Config.new(HEROKU_CONFIG_FILE)
+
+require 'heroku/rails/config'
+HEROKU_CONFIG = Heroku::Rails::Config.new(HEROKU_CONFIG_FILE)
 
 (HEROKU_CONFIG.settings['apps'] || []).each do |name, app|
   desc "Select #{name} Heroku app for later commands"

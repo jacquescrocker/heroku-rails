@@ -1,22 +1,43 @@
-require 'rake'
+require "bundler"
+Bundler.setup
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "heroku_san"
-    gem.summary = %Q{A bunch of useful Rake tasks for managing your Heroku apps}
-    gem.description = %Q{Manage multiple Heroku instances/apps for a single Rails app using Rake}
-    gem.email = "elijah.miller@gmail.com"
-    gem.homepage = "http://github.com/glennr/heroku_san"
-    gem.authors = ["Elijah Miller", "Glenn Roberts"]
-    gem.files = Dir["{lib}/**/*", "VERSION", "LICENSE", "CHANGELOG", "TODO", "README.rdoc", "Rakefile"]
-    gem.extra_rdoc_files = []
-    gem.add_dependency("heroku")
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+require 'rake'
+require 'rake/gempackagetask'
+
+gemspec = eval(File.read('heroku-rails.gemspec'))
+Rake::GemPackageTask.new(gemspec) do |pkg|
+  pkg.gem_spec = gemspec
 end
 
-desc 'Default: build gem.'
-task :default => :build
+desc "build the gem and release it to rubygems.org"
+task :release => :gem do
+  puts "Tagging #{gemspec.version}..."
+  system "git tag -a #{gemspec.version} -m 'Tagging #{gemspec.version}'"
+  puts "Pushing to Github..."
+  system "git push --tags"
+  puts "Pushing to rubygems.org..."
+  system "gem push pkg/#{gemspec.name}-#{gemspec.version}.gem"
+end
+
+require "rspec"
+require "rspec/core/rake_task"
+
+Rspec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = "spec/**/*_spec.rb"
+end
+
+Rspec::Core::RakeTask.new('spec:progress') do |spec|
+  spec.rspec_opts = %w(--format progress)
+  spec.pattern = "spec/**/*_spec.rb"
+end
+
+require "rake/rdoctask"
+Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = "rdoc"
+  rdoc.title = "Heroku Rails #{gemspec.version}"
+  rdoc.rdoc_files.include("README*")
+  rdoc.rdoc_files.include("lib/**/*.rb")
+end
+
+
+task :default => :spec
