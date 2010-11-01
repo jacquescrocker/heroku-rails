@@ -138,14 +138,14 @@ module Heroku
           # get the addons that we are aiming towards
           addons = @config.addons(heroku_env)
 
-          # add "custom_domains" if that addon doesnt already exist
-          # and we have domains configured for this app
-          unless @config.domains(heroku_env).empty? or addons.include?("custom_domains")
-            addons << "custom_domains"
-          end
-
           # get the addons that are already on the servers
           existing_addons = (@heroku.installed_addons(app_name) || []).map{|a| a["name"]}
+
+          # add "custom_domains" if that addon doesnt already exist
+          # and we have domains configured for this app
+          addons << "custom_domains:basic" unless @config.domains(heroku_env).empty? or
+                                                  addons.any?{|a| a =~ /custom_domains/} or
+                                                  existing_addons.any?{|a| a =~ /custom_domains/}
 
           # remove the addons that need to be removed
           existing_addons.each do |existing_addon|
