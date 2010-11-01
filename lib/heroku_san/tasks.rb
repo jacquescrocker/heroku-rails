@@ -1,13 +1,7 @@
 HEROKU_CONFIG_FILE = Rails.root.join('config', 'heroku.yml')
+HEROKU_CONFIG = HerokuSan::Config.new(HEROKU_CONFIG_FILE)
 
-HEROKU_SETTINGS =
-  if File.exists?(HEROKU_CONFIG_FILE)
-    YAML.load_file(HEROKU_CONFIG_FILE)
-  else
-    {}
-  end
-
-(HEROKU_SETTINGS['apps'] || []).each do |name, app|
+(HEROKU_CONFIG.settings['apps'] || []).each do |name, app|
   desc "Select #{name} Heroku app for later commands"
   task name do
     @heroku_apps ||= []
@@ -17,7 +11,7 @@ end
 
 desc 'Select all Heroku apps for later command'
 task :all do
-  @heroku_apps = HEROKU_SETTINGS['apps'].keys
+  @heroku_apps = HEROKU_CONFIG.settings['apps'].keys
 end
 
 namespace :heroku do
@@ -104,6 +98,11 @@ namespace :heroku do
       system_with_echo("#{ENV['EDITOR']} #{HEROKU_CONFIG_FILE}")
     end
   end
+
+  namespace :setup do
+    # TODO
+  end
+
 end
 
 desc "Deploys, migrates and restarts latest code"
@@ -198,14 +197,14 @@ def system_with_echo(*args)
 end
 
 def each_heroku_app
-  if @heroku_apps.blank? && HEROKU_SETTINGS['apps'].size == 1
-    app = HEROKU_SETTINGS['apps'].keys.first
+  if @heroku_apps.blank? && HEROKU_CONFIG.settings['apps'].size == 1
+    app = HEROKU_CONFIG.settings['apps'].keys.first
     puts "Defaulting to #{app} app since only one app is defined"
     @heroku_apps = [app]
   end
   if @heroku_apps.present?
     @heroku_apps.each do |name|
-      app = HEROKU_SETTINGS['apps'][name]
+      app = HEROKU_CONFIG.settings['apps'][name]
       yield(name, app, "git@heroku.com:#{app}.git")
     end
     puts
