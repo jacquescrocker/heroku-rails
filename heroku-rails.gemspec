@@ -3,8 +3,8 @@ Gem::Specification.new do |s|
   s.version = "0.0.1"
 
   s.authors = ["Elijah Miller", "Glenn Roberts", "Jacques Crocker"]
-  s.summary = "A bunch of useful Rake tasks for managing your Heroku apps"
-  s.description = "Manage multiple Heroku instances/apps for a single Rails app using Rake"
+  s.summary = "Deployment and configuration tools for Heroku/Rails"
+  s.description = "Manage multiple Heroku instances/apps for a single Rails app using Rake. It's the Capistrano for Heroku, without the suck."
 
   s.email = "railsjedi@gmail.com"
   s.homepage = "http://github.com/railsjedi/heroku-rails"
