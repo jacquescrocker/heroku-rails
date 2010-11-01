@@ -1,0 +1,47 @@
+apps:
+  production: awesomeapp
+  staging: awesomeapp-staging
+
+stacks:
+  all: bamboo-mri-1.9.2
+  staging: bamboo-ree-1.8.7
+
+config:
+  all:
+    BUNDLE_WITHOUT: "test development"
+    CONFIG_VAR1: "config1"
+    CONFIG_VAR2: "config2"
+
+  production:
+    CONFIG_VAR1: "config1-production"
+
+  staging:
+    CONFIG_VAR1: "config1-staging"
+    STAGING_CONFIG: "special-staging"
+
+collaborators:
+  all:
+    - "all-user1@somedomain.com"
+    - "all-user2@somedomain.com"
+  staging:
+    - "staging-user@somedomain.com"
+  production:
+    - "production-user@somedomain.com"
+
+domains:
+  staging:
+    - "staging.awesomeapp.com"
+  production:
+    - "awesomeapp.com"
+    - "www.awesomeapp.com"
+
+addons:
+  all:
+    # add any other addons here
+    - custom_domains:basic
+    - newrelic:bronze
+
+  production:
+    # list production env specific addons here
+    - ssl:piggyback
+    - cron:hourly
