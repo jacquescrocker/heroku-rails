@@ -1,6 +1,6 @@
-- refactor config/helpers out of tasks.rb into own file(s)
-- add config setup tasks
+√ refactor config/helpers out of tasks.rb into own file(s)
+√ add config setup tasks (DONE)
+- add proper rails3 generator support
 - add sass/coffeescript precompile
 - add hooks to allow other precompilations before deploy
 - add jammit and jammit-s3 support
-- add proper rails3 generator support
