@@ -73,6 +73,7 @@ A full list of tasks provided:
     rake all                        # Select all Heroku apps for later command
     rake heroku:deploy              # Deploys, migrates and restarts latest code.
     rake heroku:apps                # Lists configured apps
+    rake heroku:info                # Queries the heroku status info on each app
     rake heroku:console             # Opens a remote console
     rake heroku:capture             # Captures a bundle on Heroku
     rake heroku:remotes             # Add git remotes for all apps in this project

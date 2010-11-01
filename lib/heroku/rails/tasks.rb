@@ -1,33 +1,34 @@
 HEROKU_CONFIG_FILE = Rails.root.join('config', 'heroku.yml')
 HEROKU_CONFIG = Heroku::Rails::HerokuConfig.new(HEROKU_CONFIG_FILE)
+HEROKU_RUNNER = Heroku::Rails::HerokuRunner.new(HEROKU_CONFIG)
 
+# create all the the environment specific tasks
 (HEROKU_CONFIG.apps).each do |heroku_env, heroku_app_name|
   desc "Select #{heroku_env} Heroku app for later commands"
   task heroku_env do
-    @heroku_environments ||= []
-    @heroku_environments << heroku_env
+    HEROKU_RUNNER.add_environment(heroku_env)
   end
 end
 
 desc 'Select all Heroku apps for later command'
 task :all do
-  @heroku_environments = HEROKU_CONFIG.app_environments
+  HEROKU_RUNNER.all_environments
 end
 
 namespace :heroku do
+  def system_with_echo(*args)
+    HEROKU_RUNNER.system_with_echo(*args)
+  end
+
   desc "Creates the Heroku app"
   task :create do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
-
-      # TODO: use the right stack
-      system_with_echo "heroku create #{heroku_app_name}"
-    end
+    HEROKU_RUNNER.create_apps
   end
 
   desc 'Add git remotes for all apps in this project'
   task :remotes do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
-      system("git remote add #{heroku_app_name} #{repo}")
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
+      system_with_echo("git remote add #{heroku_app_name} #{repo}")
     end
   end
 
@@ -36,7 +37,7 @@ namespace :heroku do
     print "Email address of collaborator to add: "
     $stdout.flush
     email = $stdin.gets
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
       system_with_echo "heroku sharing:add --app #{heroku_app_name} #{email}"
     end
   end
@@ -46,17 +47,26 @@ namespace :heroku do
     print "Email address of collaborator to remove: "
     $stdout.flush
     email = $stdin.gets
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
       system_with_echo "heroku sharing:remove --app #{heroku_app_name} #{email}"
     end
   end
 
   desc 'Lists configured apps'
   task :apps => :all do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
+    puts "\n"
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
       puts "#{heroku_env} maps to the Heroku app #{heroku_app_name} located at:"
       puts "  #{repo}"
       puts
+    end
+  end
+
+  desc "Get remote server information on the heroku app"
+  task :info do
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
+      system_with_echo "heroku info --app #{heroku_app_name}"
+      puts "\n"
     end
   end
 
@@ -74,7 +84,7 @@ namespace :heroku do
 
   desc "Deploys, migrates and restarts latest code"
   task :deploy => "heroku:before_deploy" do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
 
       # set the current heroku_app so that callbacks can read the data
       @heroku_app = {:env => heroku_env, :app_name => heroku_app_name, :repo => repo}
@@ -118,76 +128,48 @@ namespace :heroku do
 
   desc "Captures a bundle on Heroku"
   task :capture do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
       system_with_echo "heroku bundles:capture --app #{heroku_app_name}"
     end
   end
 
   desc "Opens a remote console"
   task :console do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
       system_with_echo "heroku console --app #{heroku_app_name}"
     end
   end
 
   desc "Restarts remote servers"
   task :restart do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
       system_with_echo "heroku restart --app #{heroku_app_name}"
     end
   end
 
-  desc "Migrates and restarts remote servers"
-  task :migrate do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
-      system_with_echo "heroku rake --app #{heroku_app_name} db:migrate && heroku restart --app #{heroku_app_name}"
+  namespace :db do
+    desc "Migrates and restarts remote servers"
+    task :migrate do
+      HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
+        system_with_echo "heroku rake --app #{heroku_app_name} db:migrate && heroku restart --app #{heroku_app_name}"
+      end
     end
-  end
-end
 
-namespace :db do
-  task :pull do
-    each_heroku_app do |heroku_env, heroku_app_name, repo|
-      system_with_echo "heroku pgdumps:capture --app #{heroku_app_name}"
-      dump = `heroku pgdumps --app #{heroku_app_name}`.split("\n").last.split(" ").first
-      system_with_echo "mkdir -p #{Rails.root}/db/dumps"
-      file = "#{Rails.root}/db/dumps/#{dump}.sql.gz"
-      url = `heroku pgdumps:url --app #{heroku_app_name} #{dump}`.chomp
-      system_with_echo "wget", url, "-O", file
-      system_with_echo "rake db:drop db:create"
-      system_with_echo "gunzip -c #{file} | #{Rails.root}/script/dbconsole"
-      system_with_echo "rake jobs:clear"
+    desc "Pulls the database from heroku and stores it into db/dumps/"
+    task :pull do
+      HEROKU_RUNNER.each_heroku_app do |heroku_env, heroku_app_name, repo|
+        system_with_echo "heroku pgdumps:capture --app #{heroku_app_name}"
+        dump = `heroku pgdumps --app #{heroku_app_name}`.split("\n").last.split(" ").first
+        system_with_echo "mkdir -p #{Rails.root}/db/dumps"
+        file = "#{Rails.root}/db/dumps/#{dump}.sql.gz"
+        url = `heroku pgdumps:url --app #{heroku_app_name} #{dump}`.chomp
+        system_with_echo "wget", url, "-O", file
+
+        # TODO: these are a bit distructive...
+        # system_with_echo "rake db:drop db:create"
+        # system_with_echo "gunzip -c #{file} | #{Rails.root}/script/dbconsole"
+        # system_with_echo "rake jobs:clear"
+      end
     end
-  end
-end
-
-def system_with_echo(*args)
-  puts args.join(' ')
-  system(*args)
-end
-
-def each_heroku_app
-  if @heroku_environments.blank? && HEROKU_CONFIG.apps.size == 1
-    heroku_env = HEROKU_CONFIG.app_environments.first
-    puts "Defaulting to #{env} app since only one app is defined"
-    @heroku_environments = [heroku_env]
-  end
-
-  if @heroku_environments.present?
-    @heroku_environments.each do |heroku_env|
-      app_name = HEROKU_CONFIG.apps[heroku_env]
-      yield(heroku_env, app_name, "git@heroku.com:#{app_name}.git")
-    end
-    puts
-  else
-    puts "You must first specify at least one Heroku app:
-      rake <app> [<app>] <command>
-      rake production restart
-      rake demo staging deploy"
-
-    puts "\nYou can use also command all Heroku apps for this project:
-      rake all heroku:share"
-
-    exit(1)
   end
 end
