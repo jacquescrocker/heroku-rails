@@ -23,6 +23,7 @@ collaborators:
   all:
     - "all-user1@somedomain.com"
     - "all-user2@somedomain.com"
+    - "all-user2@somedomain.com"
   staging:
     - "staging-user@somedomain.com"
   production:

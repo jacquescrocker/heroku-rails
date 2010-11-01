@@ -40,7 +40,7 @@ In config/heroku.yml you will need add the Heroku apps that you would like to at
 If this is a fresh project, heroku_san can create all the applications for
 you, and set the RACK_ENV.
 
-    rake all heroku:create heroku:rack_env
+    rake all heroku:setup
 
 ## Usage
 
@@ -95,7 +95,6 @@ A full list of tasks provided:
     rake heroku:gems                # Generate the Heroku gems manifest from gem dependencies
     rake heroku:share               # Adds a collaborator
     rake heroku:unshare             # Removes a collaborator
-    rake heroku:create              # Creates the Heroku app
 
 You can easily alias frequently used tasks within your application's Rakefile:
 

@@ -72,6 +72,7 @@ module Heroku::Rails
         it "should include the collaborators defined in 'all'" do
           @collaborators.should include('all-user1@somedomain.com')
           @collaborators.should include('all-user2@somedomain.com')
+          @collaborators.should have(3).collaborators
         end
 
         it "should include collaborators defined in 'staging'" do
