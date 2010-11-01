@@ -1,6 +1,4 @@
 HEROKU_CONFIG_FILE = Rails.root.join('config', 'heroku.yml')
-
-require 'heroku/rails/config'
 HEROKU_CONFIG = Heroku::Rails::Config.new(HEROKU_CONFIG_FILE)
 
 (HEROKU_CONFIG.settings['apps'] || []).each do |name, app|

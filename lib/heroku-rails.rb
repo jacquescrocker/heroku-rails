@@ -1,9 +1,2 @@
-module Heroku
-  module Rails
-    class Railtie < ::Rails::Railtie
-      rake_tasks do
-        load 'heroku/rails/tasks.rb'
-      end
-    end
-  end
-end
+require 'heroku/rails/config'
+require 'heroku/rails/railtie' if defined?(::Rails::Railtie)
