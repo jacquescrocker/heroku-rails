@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
 
   s.email = "railsjedi@gmail.com"
   s.homepage = "http://github.com/railsjedi/heroku-rails"
+  s.rubyforge_project = "none"
 
   s.require_paths = ["lib"]
   s.files = Dir['lib/**/*',
