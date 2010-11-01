@@ -71,20 +71,30 @@ Need to add remotes for each app?
 A full list of tasks provided:
 
     rake all                        # Select all Heroku apps for later command
-    rake heroku:console             # Opens a remote console
     rake heroku:deploy              # Deploys, migrates and restarts latest code.
-    rake heroku:capture             # Captures a bundle on Heroku
     rake heroku:apps                # Lists configured apps
-    rake heroku:create              # Creates the Heroku app
-    rake heroku:gems                # Generate the Heroku gems manifest from gem dependencies
+    rake heroku:console             # Opens a remote console
+    rake heroku:capture             # Captures a bundle on Heroku
     rake heroku:remotes             # Add git remotes for all apps in this project
-    rake heroku:share               # Adds a collaborator
-    rake heroku:unshare             # Removes a collaborator
     rake heroku:migrate             # Migrates and restarts remote servers
     rake heroku:restart             # Restarts remote servers
 
+    rake heroku:setup               # runs all heroku setup scripts
+    rake heroku:setup:addons        # sets up the heroku addons
+    rake heroku:setup:collaborators # sets up the heroku collaborators
+    rake heroku:setup:config        # sets up the heroku config env variables
+    rake heroku:setup:domains       # sets up the heroku domains
+    rake heroku:setup:stacks        # sets the correct stack for each heroku app
+
+    rake heroku:db:setup            # Migrates and restarts remote servers
+
+    # these are deprecated...
     rake heroku:create_config       # Creates an example configuration file
     rake heroku:rack_env            # Add proper RACK_ENV to each application
+    rake heroku:gems                # Generate the Heroku gems manifest from gem dependencies
+    rake heroku:share               # Adds a collaborator
+    rake heroku:unshare             # Removes a collaborator
+    rake heroku:create              # Creates the Heroku app
 
 You can easily alias frequently used tasks within your application's Rakefile:
 
