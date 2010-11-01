@@ -88,10 +88,14 @@ A full list of tasks provided:
 
 You can easily alias frequently used tasks within your application's Rakefile:
 
-    task :deploy => ["heroku:deploy"]
+    task :deploy =>  ["heroku:deploy"]
     task :console => ["heroku:console"]
     task :capture => ["heroku:capture"]
 
+With this in place, you can be a bit more terse:
+
+    rake staging console
+    rake all deploy
 
 ### Deploy Hooks
 
