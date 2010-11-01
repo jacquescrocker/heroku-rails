@@ -95,16 +95,17 @@ Frequently used tasks are not namespaced, everything else lives under heroku.
 
 ### Links
 
-Homepage:: http://github.com/railsjedi/heroku-rails
-Issue Tracker:: http://github.com/railsjedi/heroku-rails/issues
+Homepage:: <http://github.com/railsjedi/heroku-rails>
+
+Issue Tracker:: <http://github.com/railsjedi/heroku-rails/issues>
 
 ### License
 
-License:: Copyright (c) 2010 [Jacques Crocker](mailto:railsjedi@gmail.com), released under the MIT license.
+License:: Copyright (c) 2010 Jacques Crocker <mailto:railsjedi@gmail.com> released under the MIT license.
 
 ## Forked from Heroku Sans
 
-Heroku Rails is a fork and rewrite/reorganiziation of Heroku Sans, and a nice simple set of Rake tasks for managing Heroku environments. Check out that project here: http://github.com/fastestforward/heroku_san
+Heroku Rails is a fork and rewrite/reorganiziation of Heroku Sans, and a nice simple set of Rake tasks for managing Heroku environments. Check out that project here: <http://github.com/fastestforward/heroku_san>
 
 ### Heroku Sans Contributors
 
