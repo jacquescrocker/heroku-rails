@@ -101,7 +101,7 @@ Issue Tracker:: <http://github.com/railsjedi/heroku-rails/issues>
 
 ### License
 
-License:: Copyright (c) 2010 Jacques Crocker <mailto:railsjedi@gmail.com> released under the MIT license.
+License:: Copyright (c) 2010 Jacques Crocker <railsjedi@gmail.com> released under the MIT license.
 
 ## Forked from Heroku Sans
 
@@ -115,4 +115,4 @@ Heroku Rails is a fork and rewrite/reorganiziation of Heroku Sans, and a nice si
 
 ### Heroku Sans License
 
-License:: Copyright (c) 2009 Elijah Miller <mailto:elijah.miller@gmail.com>, released under the MIT license.
+License:: Copyright (c) 2009 Elijah Miller <elijah.miller@gmail.com>, released under the MIT license.
