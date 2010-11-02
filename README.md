@@ -147,7 +147,7 @@ License:: Copyright (c) 2010 Jacques Crocker <railsjedi@gmail.com> released unde
 
 ## Forked from Heroku Sans
 
-Heroku Rails is a fork and rewrite/reorganiziation of Heroku Sans, and a nice simple set of Rake tasks for managing Heroku environments. Check out that project here: <http://github.com/fastestforward/heroku_san>
+Heroku Rails is a fork and rewrite/reorganiziation of the heroku_sans gem. Heroku Sans is a simple and elegant set of Rake tasks for managing Heroku environments. Check out that project here: <http://github.com/fastestforward/heroku_san>
 
 ### Heroku Sans Contributors
 
