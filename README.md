@@ -35,12 +35,13 @@ Rake tasks are not automatically loaded from gems, so you’ll need to add the f
 
 In config/heroku.yml you will need add the Heroku apps that you would like to attach to this project. You can generate this file and edit it by running:
 
-    rake heroku:create_config
+    rails generate heroku:config
 
-If this is a fresh project, heroku_san can create all the applications for
-you, and set the RACK_ENV.
+Then edit config/heroku.yml with your project's heroku configurations. To persist the changes onto Heroku, just run:
 
     rake all heroku:setup
+
+This will create the heroku apps you have defined, and create the settings for each.
 
 ## Usage
 
@@ -57,12 +58,6 @@ is additive, you can easily select which servers to run a command on.
 
 A special rake task 'all' is created that causes any further commands to
 execute on all heroku apps.
-
-Manipulate collaborators on all this project's apps (prompts for email
-address):
-
-    rake all heroku:share
-    rake all heroku:unshare
 
 Need to add remotes for each app?
 
@@ -88,13 +83,6 @@ A full list of tasks provided:
     rake heroku:setup:stacks        # sets the correct stack for each heroku app
 
     rake heroku:db:setup            # Migrates and restarts remote servers
-
-    # these are deprecated...
-    rake heroku:create_config       # Creates an example configuration file
-    rake heroku:rack_env            # Add proper RACK_ENV to each application
-    rake heroku:gems                # Generate the Heroku gems manifest from gem dependencies
-    rake heroku:share               # Adds a collaborator
-    rake heroku:unshare             # Removes a collaborator
 
 You can easily alias frequently used tasks within your application's Rakefile:
 

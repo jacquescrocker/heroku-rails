@@ -109,6 +109,11 @@ module Heroku
           # get the configuration that we are aiming towards
           new_config = @config.config(heroku_env)
 
+          # default RACK_ENV to the heroku_env (unless its manually set to something else)
+          unless new_config["RACK_ENV"].to_s.length > 0
+            new_config["RACK_ENV"] = heroku_env
+          end
+
           # get the existing config from heroku's servers
           existing_config = @heroku.config_vars(app_name) || {}
 

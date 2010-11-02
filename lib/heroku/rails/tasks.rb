@@ -27,26 +27,6 @@ namespace :heroku do
     end
   end
 
-  desc 'Adds a collaborator'
-  task :share do
-    print "Email address of collaborator to add: "
-    $stdout.flush
-    email = $stdin.gets
-    HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
-      system_with_echo "heroku sharing:add --app #{app_name} #{email}"
-    end
-  end
-
-  desc 'Adds a collaborator'
-  task :unshare do
-    print "Email address of collaborator to remove: "
-    $stdout.flush
-    email = $stdin.gets
-    HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
-      system_with_echo "heroku sharing:remove --app #{app_name} #{email}"
-    end
-  end
-
   desc 'Lists configured apps'
   task :apps => :all do
     puts "\n"
