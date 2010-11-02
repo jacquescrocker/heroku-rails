@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    heroku-rails (0.2.0)
-      heroku
+    heroku-rails (0.2.1)
+      heroku (>= 1.11.0)
 
 GEM
   remote: http://rubygems.org/
@@ -60,7 +60,7 @@ PLATFORMS
 DEPENDENCIES
   autotest
   growl-glue
-  heroku
+  heroku (>= 1.11.0)
   heroku-rails!
   rspec (~> 2.0)
   ruby-debug
