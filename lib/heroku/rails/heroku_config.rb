@@ -13,15 +13,15 @@ module Heroku
       end
 
       def apps
-        self.settings['apps']
+        self.settings['apps'] || {}
       end
 
       def app_names
-        self.settings['apps'].values
+        apps.values
       end
 
       def app_environments
-        self.settings['apps'].keys
+        apps.keys
       end
 
       # return the stack setting for a particular app environment

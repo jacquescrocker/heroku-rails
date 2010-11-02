@@ -205,6 +205,16 @@ module Heroku
       # cycles through each configured heroku app
       # yields the environment name, the app name, and the repo url
       def each_heroku_app
+
+        if @config.apps.size == 0
+          puts "\nNo heroku apps are configured. Run:
+            rails generate heroku:config\n\n"
+          puts "this will generate a default config/heroku.yml that you should edit"
+          puts "and then try running this command again"
+
+          exit(1)
+        end
+
         if @environments.blank? && @config.apps.size == 1
           @environments = [@config.app_environments.first]
         end
@@ -215,13 +225,13 @@ module Heroku
             yield(heroku_env, app_name, "git@heroku.com:#{app_name}.git")
           end
         else
-          puts "You must first specify at least one Heroku app:
+          puts "\nYou must first specify at least one Heroku app:
             rake <app> [<app>] <command>
             rake production restart
             rake demo staging deploy"
 
-          puts "\nYou can use also command all Heroku apps for this project:
-            rake all heroku:setup"
+          puts "\n\nYou can use also command all Heroku apps for this project:
+            rake all heroku:setup\n"
 
           exit(1)
         end
