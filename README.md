@@ -37,12 +37,6 @@ In config/heroku.yml you will need add the Heroku apps that you would like to at
 
     rails generate heroku:config
 
-Then edit config/heroku.yml with your project's heroku configurations. To persist the changes onto Heroku, just run:
-
-    rake all heroku:setup
-
-This will create the heroku apps you have defined, and create the settings for each.
-
 ### Example Configuration File
 
     apps:
@@ -81,6 +75,17 @@ This will create the heroku apps you have defined, and create the settings for e
         - ssl:piggyback
         - cron:hourly
         # list production env specific addons here
+
+
+### Setting up Heroku
+
+To set heroku up (using your heroku.yml), just run.
+
+    rake all heroku:setup
+
+This will create the heroku apps you have defined, and create the settings for each.
+
+Run `rake heroku:setup` every time you edit the heroku.yml. It will only make incremental changes (based on what you've added/removed). If nothing has changed in the heroku.yml since the last `heroku:setup`, then no heroku changes will be sent.
 
 
 ## Usage
