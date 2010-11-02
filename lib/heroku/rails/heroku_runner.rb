@@ -207,7 +207,6 @@ module Heroku
       def each_heroku_app
         if @environments.blank? && @config.apps.size == 1
           @environments = [@config.app_environments.first]
-          puts "Defaulting to #{@environments.first} app since only one app is defined"
         end
 
         if @environments.present?

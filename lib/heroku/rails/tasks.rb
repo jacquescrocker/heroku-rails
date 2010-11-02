@@ -48,7 +48,7 @@ namespace :heroku do
   desc "Deploys, migrates and restarts latest code"
   task :deploy => "heroku:before_deploy" do
     HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
-
+      puts "\n\nDeploying to #{app_name}..."
       # set the current heroku_app so that callbacks can read the data
       @heroku_app = {:env => heroku_env, :app_name => app_name, :repo => repo}
       Rake::Task["heroku:before_each_deploy"].invoke
@@ -62,6 +62,7 @@ namespace :heroku do
         exit(1)
       end
       Rake::Task["heroku:after_each_deploy"].invoke
+      puts "\n"
     end
     Rake::Task["heroku:after_deploy"].execute
   end
