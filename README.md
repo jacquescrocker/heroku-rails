@@ -43,6 +43,46 @@ Then edit config/heroku.yml with your project's heroku configurations. To persis
 
 This will create the heroku apps you have defined, and create the settings for each.
 
+### Example Configuration File
+
+    apps:
+      production: awesomeapp
+      staging: awesomeapp-staging
+      legacy: awesomeapp-legacy
+
+    stacks:
+      all: bamboo-mri-1.9.2
+      legacy: bamboo-ree-1.8.7
+
+    config:
+      all:
+        BUNDLE_WITHOUT: "test development"
+      production:
+        MONGODB_URI: "mongodb://[username:password@]host1[:port1][/database]"
+      staging:
+        MONGODB_URI: "mongodb://[username:password@]host1[:port1][/database]"
+
+    collaborators:
+      all:
+        - "heroku1@somedomain.com"
+        - "heroku2@somedomain.com"
+
+    domains:
+      production:
+        - "awesomeapp.com"
+        - "www.awesomeapp.com"
+
+    addons:
+      all:
+        - newrelic:bronze
+        # add any other addons here
+
+      production:
+        - ssl:piggyback
+        - cron:hourly
+        # list production env specific addons here
+
+
 ## Usage
 
 After configuring your Heroku apps you can use rake tasks to control the
