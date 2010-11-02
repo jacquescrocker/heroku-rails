@@ -99,6 +99,13 @@ With this in place, you can be a bit more terse:
 
 You can easily hook into the deploy process by defining any of the following rake tasks:
 
+You can generate these automatically within lib/tasks/heroku.rake by running:
+
+    rails generate heroku:callbacks
+
+
+Then edit the rake tasks to provide custom logic for each of these steps
+
     namespace :heroku do
 
       # runs before all the deploys complete
@@ -122,6 +129,8 @@ You can easily hook into the deploy process by defining any of the following rak
       end
 
     end
+
+
 
 
 ## About Heroku Rails

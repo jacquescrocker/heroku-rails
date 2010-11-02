@@ -45,18 +45,6 @@ namespace :heroku do
     end
   end
 
-  desc 'Creates an example configuration file'
-  task :create_config do
-    example = File.join(File.dirname(__FILE__), '..', 'templates', 'heroku.example.yml')
-    if File.exists?(HEROKU_CONFIG_FILE)
-      puts "config/heroku.yml already exists"
-    else
-      puts "Copied example config to config/heroku.yml"
-      FileUtils.cp(example, HEROKU_CONFIG_FILE)
-      system_with_echo("#{ENV['EDITOR']} #{HEROKU_CONFIG_FILE}")
-    end
-  end
-
   desc "Deploys, migrates and restarts latest code"
   task :deploy => "heroku:before_deploy" do
     HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
