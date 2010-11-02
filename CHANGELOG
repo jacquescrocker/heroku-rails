@@ -1,4 +1,14 @@
 Heroku Rails
+
+v0.2.0
+============================================
+Added Heroku Settings tasks, and rails generators
+
+Cleaned out lots of tasks that are now handled by editing config/heroku.yml and running `rake heroku:setup`
+
+Namespaced tasks such as heroku:deploy, heroku:console, etc. The only top level task now is `rake all ...` which sets all the environments. Individual environment tasks (e.g. `rake production ...`) are still generated without a namespace.
+
+
 v0.0.1
 ============================================
 Initial fork and reorganization
