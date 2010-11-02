@@ -103,6 +103,13 @@ namespace :heroku do
     end
   end
 
+  desc "Shows the Heroku logs"
+  task :logs do
+    HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
+      system_with_echo "heroku logs --app #{app_name}"
+    end
+  end
+
   desc "Restarts remote servers"
   task :restart do
     HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
