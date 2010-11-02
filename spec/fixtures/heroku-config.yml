@@ -45,4 +45,4 @@ addons:
   production:
     # list production env specific addons here
     - ssl:piggyback
-    - cron:hourly
+    - cron:daily

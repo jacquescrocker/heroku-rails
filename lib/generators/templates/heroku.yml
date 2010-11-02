@@ -41,11 +41,11 @@ domains:
 
 addons:
   all:
-    # add any other addons here
     - custom_domains:basic
-    - newrelic:bronze
+    # add any other addons here
 
   production:
-    # list production env specific addons here
     - ssl:piggyback
-    - cron:hourly
+    - cron:daily
+    - newrelic:bronze
+    # production env specific addons here

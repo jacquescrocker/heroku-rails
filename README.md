@@ -73,7 +73,7 @@ In config/heroku.yml you will need add the Heroku apps that you would like to at
 
       production:
         - ssl:piggyback
-        - cron:hourly
+        - cron:daily
         # list production env specific addons here
 
 
