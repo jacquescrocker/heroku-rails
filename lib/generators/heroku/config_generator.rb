@@ -10,6 +10,10 @@ module Heroku
       def create_config_file
         template 'heroku.yml', File.join('config', "heroku.yml")
       end
+
+      def create_rake_file
+        template 'heroku.rake', File.join('lib', 'tasks', "heroku.rake")
+      end
     end
   end
 end

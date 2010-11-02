@@ -222,7 +222,7 @@ module Heroku
             rake demo staging deploy"
 
           puts "\nYou can use also command all Heroku apps for this project:
-            rake all heroku:share"
+            rake all heroku:setup"
 
           exit(1)
         end
