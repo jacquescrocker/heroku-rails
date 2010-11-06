@@ -8,7 +8,7 @@ stacks:
 
 config:
   all:
-    BUNDLE_WITHOUT: "test development"
+    BUNDLE_WITHOUT: "test:development"
     CONFIG_VAR1: "config1"
     CONFIG_VAR2: "config2"
 

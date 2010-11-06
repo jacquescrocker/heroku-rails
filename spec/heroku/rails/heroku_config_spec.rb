@@ -54,7 +54,7 @@ module Heroku::Rails
         end
 
         it "should include configs defined in 'all'" do
-          @config["BUNDLE_WITHOUT"].should == "test development"
+          @config["BUNDLE_WITHOUT"].should == "test:development"
         end
 
         it "should use configs defined in 'staging' ahead of configs defined in 'all'" do

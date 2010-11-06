@@ -50,7 +50,7 @@ In config/heroku.yml you will need add the Heroku apps that you would like to at
 
     config:
       all:
-        BUNDLE_WITHOUT: "test development"
+        BUNDLE_WITHOUT: "test:development"
       production:
         MONGODB_URI: "mongodb://[username:password@]host1[:port1][/database]"
       staging:
