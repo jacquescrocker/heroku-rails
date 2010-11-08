@@ -121,8 +121,8 @@ namespace :heroku do
   namespace :setup do
 
     desc "Creates the apps on Heroku"
-    task :create_apps do
-      HEROKU_RUNNER.create_apps
+    task :apps do
+      HEROKU_RUNNER.setup_apps
     end
 
     desc "Setup the Heroku stacks from heroku.yml config"
@@ -153,6 +153,7 @@ namespace :heroku do
 
   desc "Setup Heroku deploy environment from heroku.yml config"
   task :setup => [
+    "heroku:setup:apps",
     "heroku:setup:stacks",
     "heroku:setup:collaborators",
     "heroku:setup:config",
