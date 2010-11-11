@@ -146,6 +146,9 @@ module Heroku
           # get the addons that are already on the servers
           existing_addons = (@heroku.installed_addons(app_name) || []).map{|a| a["name"]}
 
+          # all apps need the shared database
+          addons << "shared-database:5mb" unless addons.index("shared-database:5mb")
+
           # add "custom_domains" if that addon doesnt already exist
           # and we have domains configured for this app
           addons << "custom_domains:basic" unless @config.domains(heroku_env).empty? or
