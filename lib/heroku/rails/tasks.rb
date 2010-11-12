@@ -51,6 +51,7 @@ namespace :heroku do
       puts "\n\nDeploying to #{app_name}..."
       # set the current heroku_app so that callbacks can read the data
       @heroku_app = {:env => heroku_env, :app_name => app_name, :repo => repo}
+      Rake::Task["heroku:before_each_deploy"].reenable
       Rake::Task["heroku:before_each_deploy"].invoke
 
       branch = `git branch`.scan(/^\* (.*)\n/).flatten.first.to_s
@@ -61,10 +62,11 @@ namespace :heroku do
         puts "Unable to determine the current git branch, please checkout the branch you'd like to deploy"
         exit(1)
       end
+      Rake::Task["heroku:after_each_deploy"].reenable
       Rake::Task["heroku:after_each_deploy"].invoke
       puts "\n"
     end
-    Rake::Task["heroku:after_deploy"].execute
+    Rake::Task["heroku:after_deploy"].invoke
   end
 
   # Callback before all deploys

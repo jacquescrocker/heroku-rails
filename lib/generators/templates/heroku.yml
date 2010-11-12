@@ -47,5 +47,5 @@ addons:
   production:
     - ssl:piggyback
     - cron:daily
-    - newrelic:bronze
+    # - newrelic:bronze
     # production env specific addons here
