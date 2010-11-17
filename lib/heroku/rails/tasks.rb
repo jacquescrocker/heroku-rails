@@ -6,6 +6,12 @@ HEROKU_RUNNER = Heroku::Rails::HerokuRunner.new(HEROKU_CONFIG)
 (HEROKU_CONFIG.apps).each do |heroku_env, app_name|
   desc "Select #{heroku_env} Heroku app for later commands"
   task heroku_env do
+
+    # callback switch_environment
+    @heroku_app = {:env => heroku_env, :app_name => app_name}
+    Rake::Task["heroku:switch_environment"].reenable
+    Rake::Task["heroku:switch_environment"].invoke
+
     HEROKU_RUNNER.add_environment(heroku_env)
   end
 end
@@ -83,6 +89,10 @@ namespace :heroku do
 
   # Callback after each deploy
   task :after_each_deploy do
+  end
+
+  # Callback for when we switch environment
+  task :switch_environment do
   end
 
   desc "Force deploys, migrates and restarts latest code"
