@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    heroku-rails (0.2.7)
+    heroku-rails (0.2.9)
       heroku (>= 1.11.0)
 
 GEM
