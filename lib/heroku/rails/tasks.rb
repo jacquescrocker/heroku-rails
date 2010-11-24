@@ -27,9 +27,9 @@ namespace :heroku do
   end
 
   desc 'Add git remotes for all apps in this project'
-  task :remotes do
+  task :remotes => :all do
     HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
-      system_with_echo("git remote add #{app_name} #{repo}")
+      system_with_echo("git remote add #{heroku_env} #{repo}")
     end
   end
 
