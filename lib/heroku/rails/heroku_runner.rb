@@ -81,6 +81,7 @@ module Heroku
 
           # add current user to collaborator list (always)
           collaborator_emails << @heroku.user unless collaborator_emails.include?(@heroku.user)
+          collaborator_emails << heroku_app_info[:owner] unless collaborator_emails.include?(heroku_app_info[:owner])
 
           # get existing collaborators
           existing_emails = heroku_app_info[:collaborators].to_a.map{|c| c[:email]}
