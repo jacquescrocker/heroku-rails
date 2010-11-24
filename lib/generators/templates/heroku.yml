@@ -30,6 +30,8 @@ config:
     CONFIG_VAR1: "config1-staging"
 
 collaborators:
+  # Be sure to add yourself as a collaborator, otherwise your
+  # access to the app will be revoked.
   all:
     - "my-heroku-email@somedomain.com"
     - "another-heroku-email@somedomain.com"
