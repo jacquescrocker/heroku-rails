@@ -79,6 +79,9 @@ module Heroku
           # get the intended list of collaborators to add
           collaborator_emails = @config.collaborators(heroku_env)
 
+          # add current user to collaborator list (always)
+          collaborator_emails += @heroku.user
+
           # get existing collaborators
           existing_emails = heroku_app_info[:collaborators].to_a.map{|c| c[:email]}
 
