@@ -10,14 +10,12 @@ GEM
     archive-tar-minitar (0.5.2)
     autotest (4.4.1)
     columnize (0.3.1)
-    configuration (1.1.0)
+    configuration (1.2.0)
     diff-lcs (1.1.2)
     growl-glue (1.0.7)
-    heroku (1.11.0)
-      json_pure (>= 1.2.0, < 1.5.0)
+    heroku (1.20.1)
       launchy (~> 0.3.2)
-      rest-client (>= 1.4.0, < 1.7.0)
-    json_pure (1.4.6)
+      rest-client (< 1.7.0, >= 1.4.0)
     launchy (0.3.7)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
@@ -60,7 +58,6 @@ PLATFORMS
 DEPENDENCIES
   autotest
   growl-glue
-  heroku (>= 1.11.0)
   heroku-rails!
   rspec (~> 2.0)
   ruby-debug

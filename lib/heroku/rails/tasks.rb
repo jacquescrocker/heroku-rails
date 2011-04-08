@@ -1,6 +1,8 @@
-HEROKU_CONFIG_FILE = Rails.root.join('config', 'heroku.yml')
-HEROKU_CONFIG = Heroku::Rails::HerokuConfig.new(HEROKU_CONFIG_FILE)
-HEROKU_RUNNER = Heroku::Rails::HerokuRunner.new(HEROKU_CONFIG)
+require 'heroku-rails'
+
+HEROKU_CONFIG_FILE = File.join(HerokuRails::Config.root, 'config', 'heroku.yml')
+HEROKU_CONFIG = HerokuRails::Config.new(HEROKU_CONFIG_FILE)
+HEROKU_RUNNER = HerokuRails::Runner.new(HEROKU_CONFIG)
 
 # create all the the environment specific tasks
 (HEROKU_CONFIG.apps).each do |heroku_env, app_name|
@@ -186,14 +188,14 @@ namespace :heroku do
       HEROKU_RUNNER.each_heroku_app do |heroku_env, app_name, repo|
         system_with_echo "heroku pgdumps:capture --app #{app_name}"
         dump = `heroku pgdumps --app #{app_name}`.split("\n").last.split(" ").first
-        system_with_echo "mkdir -p #{Rails.root}/db/dumps"
-        file = "#{Rails.root}/db/dumps/#{dump}.sql.gz"
+        system_with_echo "mkdir -p #{HerokuRails::Config.root}/db/dumps"
+        file = "#{HerokuRails::Config.root}/db/dumps/#{dump}.sql.gz"
         url = `heroku pgdumps:url --app #{app_name} #{dump}`.chomp
         system_with_echo "wget", url, "-O", file
 
         # TODO: these are a bit distructive...
         # system_with_echo "rake db:drop db:create"
-        # system_with_echo "gunzip -c #{file} | #{Rails.root}/script/dbconsole"
+        # system_with_echo "gunzip -c #{file} | #{HerokuRails::Config.root}/script/dbconsole"
         # system_with_echo "rake jobs:clear"
       end
     end

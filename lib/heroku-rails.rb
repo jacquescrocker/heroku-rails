@@ -1,3 +1,16 @@
-require 'heroku/rails/heroku_config'
-require 'heroku/rails/heroku_runner'
-require 'heroku/rails/railtie' if defined?(::Rails::Railtie)
+module HerokuRails
+  class Config
+    class << self
+      def root
+        @heroku_rails_root || ENV["RAILS_ROOT"] || "."
+      end
+      def root=(root)
+        @heroku_rails_root = root
+      end
+    end
+  end
+end
+
+require 'heroku-rails/config'
+require 'heroku-rails/runner'
+require 'heroku-rails/railtie' if defined?(::Rails::Railtie)

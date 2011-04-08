@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-module Heroku::Rails
-  describe HerokuConfig do
+module HerokuRails
+  describe Config do
     before(:each) do
-      @config = HerokuConfig.new(config_path("heroku-config.yml"))
+      @config = Config.new(config_path("heroku-config.yml"))
     end
 
     it "should read the configuration file" do
