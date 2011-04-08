@@ -1,6 +1,15 @@
 module HerokuRails
   class Config
 
+    class << self
+      def root
+        @heroku_rails_root || ENV["RAILS_ROOT"] || "."
+      end
+      def root=(root)
+        @heroku_rails_root = root
+      end
+    end
+
     attr_accessor :settings
 
     def initialize(config_filepath)
