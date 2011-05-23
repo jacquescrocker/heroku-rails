@@ -2,6 +2,7 @@ require 'heroku/client'
 
 module HerokuRails
   class Runner
+    include Rake::DSL
     def initialize(config)
       @config = config
       @environments = []
