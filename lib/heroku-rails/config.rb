@@ -16,7 +16,7 @@ module HerokuRails
 
     def initialize(config_filepath)
       if File.exists?(config_filepath)
-        self.settings = YAML.load_file(ERB.new(File.read(config_filepath)).result) || {}
+        self.settings = YAML.load(ERB.new(File.read(config_filepath)).result) || {}
       else
         self.settings = {}
       end
