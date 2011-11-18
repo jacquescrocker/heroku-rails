@@ -1,30 +1,30 @@
 PATH
   remote: .
   specs:
-    heroku-rails (0.3.1)
+    heroku-rails (0.3.2)
       heroku (>= 1.11.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.2.6)
     archive-tar-minitar (0.5.2)
     autotest (4.4.1)
     columnize (0.3.1)
-    configuration (1.2.0)
     diff-lcs (1.1.2)
     growl-glue (1.0.7)
-    heroku (1.20.1)
-      launchy (~> 0.3.2)
-      rest-client (< 1.7.0, >= 1.4.0)
-    launchy (0.3.7)
-      configuration (>= 0.0.5)
-      rake (>= 0.8.1)
+    heroku (2.14.0)
+      launchy (>= 0.3.2)
+      rest-client (~> 1.6.1)
+      rubyzip
+      term-ansicolor (~> 1.0.5)
+    launchy (2.0.5)
+      addressable (~> 2.2.6)
     linecache (0.43)
     linecache19 (0.5.11)
       ruby_core_source (>= 0.1.4)
-    mime-types (1.16)
-    rake (0.8.7)
-    rest-client (1.6.1)
+    mime-types (1.17.2)
+    rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.0.1)
       rspec-core (~> 2.0.1)
@@ -51,6 +51,8 @@ GEM
       ruby-debug-base19 (>= 0.11.19)
     ruby_core_source (0.1.4)
       archive-tar-minitar (>= 0.5.2)
+    rubyzip (0.9.4)
+    term-ansicolor (1.0.7)
 
 PLATFORMS
   ruby
