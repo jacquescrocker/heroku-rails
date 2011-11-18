@@ -60,7 +60,7 @@ namespace :heroku do
       # set the current heroku_app so that callbacks can read the data
       @heroku_app = {:env => heroku_env, :app_name => app_name, :repo => repo}
       Rake::Task["heroku:before_each_deploy"].reenable
-      Rake::Task["heroku:before_each_deploy"].invoke
+      Rake::Task["heroku:before_each_deploy"].invoke(app_name)
 
       branch = `git branch`.scan(/^\* (.*)\n/).flatten.first.to_s
       if branch.present?
@@ -71,7 +71,7 @@ namespace :heroku do
         exit(1)
       end
       Rake::Task["heroku:after_each_deploy"].reenable
-      Rake::Task["heroku:after_each_deploy"].invoke
+      Rake::Task["heroku:after_each_deploy"].invoke(app_name)
       puts "\n"
     end
     Rake::Task["heroku:after_deploy"].invoke
@@ -86,11 +86,11 @@ namespace :heroku do
   end
 
   # Callback before each deploy
-  task :before_each_deploy do
+  task :before_each_deploy, [:app_name] do |t,args|
   end
 
   # Callback after each deploy
-  task :after_each_deploy do
+  task :after_each_deploy, [:app_name] do |t,args|
   end
 
   # Callback for when we switch environment
