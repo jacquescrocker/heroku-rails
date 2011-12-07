@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "heroku-rails"
-  s.version = "0.3.3"
+  s.version = "0.4.0"
 
   s.authors = ["Elijah Miller", "Glenn Roberts", "Jacques Crocker"]
   s.summary = "Deployment and configuration tools for Heroku/Rails"
