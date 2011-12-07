@@ -16,12 +16,12 @@ namespace :heroku do
   end
 
   # runs before each push to a particular heroku deploy environment
-  task :before_each_deploy do
+  task :before_each_deploy, [:app_name] do |t,args|
 
   end
 
   # runs after each push to a particular heroku deploy environment
-  task :after_each_deploy do
+  task :after_each_deploy, [:app_name] do |t,args|
 
   end
 
