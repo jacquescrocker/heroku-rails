@@ -46,7 +46,7 @@ module HerokuRails
 
         stack = @config.stack(heroku_env)
         stack_option = " --stack #{stack}" if stack.to_s.size > 0
-        system_with_echo "heroku create #{app_name}#{stack_option} --remote #{app_name}"
+        creation_command "heroku create #{app_name}#{stack_option} --remote #{app_name}"
       end
     end
 
@@ -63,7 +63,7 @@ module HerokuRails
         # if the stacks don't match, then perform a migration
         if stack != heroku_app_info[:stack]
           puts "Migrating the app: #{app_name} to the stack: #{stack}"
-          system_with_echo "heroku stack:migrate #{stack} --app #{app_name}"
+          creation_command "heroku stack:migrate #{stack} --app #{app_name}"
         end
       end
     end
@@ -90,7 +90,7 @@ module HerokuRails
           # check to see if we need to delete this person
           unless collaborator_emails.include?(existing_email)
             # delete that collaborator if they arent on the approved list
-            system_with_echo "heroku sharing:remove #{existing_email} --app #{app_name}"
+            destroy_command "heroku sharing:remove #{existing_email} --app #{app_name}"
           end
         end
 
@@ -99,9 +99,12 @@ module HerokuRails
           # check to see if we need to add this person
           unless existing_emails.include?(collaborator_email)
             # add the collaborator if they are not already on the server
-            system_with_echo "heroku sharing:add #{collaborator_email} --app #{app_name}"
+            creation_command "heroku sharing:add #{collaborator_email} --app #{app_name}"
           end
         end
+
+        # display the destructive commands
+        output_destroy_commands
       end
     end
 
@@ -134,7 +137,7 @@ module HerokuRails
             set_config << "#{key}='#{val}' "
           end
 
-          system_with_echo "heroku config:add #{set_config} --app #{app_name}"
+          creation_command "heroku config:add #{set_config} --app #{app_name}"
         end
       end
     end
@@ -163,7 +166,7 @@ module HerokuRails
           # check to see if we need to delete this addon
           unless addons.include?(existing_addon)
             # delete this addon if they arent on the approved list
-            system_with_echo "heroku addons:remove #{existing_addon} --app #{app_name}"
+            destroy_command "heroku addons:remove #{existing_addon} --app #{app_name}"
           end
         end
 
@@ -172,9 +175,12 @@ module HerokuRails
           # check to see if we need to add this addon
           unless existing_addons.include?(addon)
             # add this addon if they are not already added
-            system_with_echo "heroku addons:add #{addon} --app #{app_name}"
+            creation_command "heroku addons:add #{addon} --app #{app_name}"
           end
         end
+
+        # display the destructive commands
+        output_destroy_commands
       end
     end
 
@@ -193,7 +199,7 @@ module HerokuRails
           # check to see if we need to delete this domain
           unless domains.include?(existing_domain)
             # delete this domain if they arent on the approved list
-            system_with_echo "heroku domains:remove #{existing_domain} --app #{app_name}"
+            destroy_command "heroku domains:remove #{existing_domain} --app #{app_name}"
           end
         end
 
@@ -202,9 +208,12 @@ module HerokuRails
           # check to see if we need to add this domain
           unless existing_domains.include?(domain)
             # add this domain if they are not already added
-            system_with_echo "heroku domains:add #{domain} --app #{app_name}"
+            creation_command "heroku domains:add #{domain} --app #{app_name}"
           end
         end
+
+        # display the destructive commands
+        output_destroy_commands
       end
     end
 
@@ -246,6 +255,27 @@ module HerokuRails
     def system_with_echo(*args)
       puts args.join(' ')
       command(*args)
+    end
+
+    def creation_command(*args)
+      system_with_echo(*args)
+    end
+
+    def destroy_command(*args)
+      puts args.join(' ')
+      @destroy_commands ||= []
+      @destroy_commands << @destroy_commands
+    end
+
+    def output_destroy_commands(app)
+      puts "The #{app} had a few things removed from the heroku.yml."
+      puts "If they are no longer neccessary, then run the following commands:"
+      (@destroy_commands || []).each do |destroy_command|
+        puts destroy_command
+      end
+      puts "these commands may cause data loss so make sure you know that these are necessary"
+      # clear destroy commands
+      @destroy_commands = []
     end
 
     def command(*args)
