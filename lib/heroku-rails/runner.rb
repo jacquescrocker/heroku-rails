@@ -104,7 +104,7 @@ module HerokuRails
         end
 
         # display the destructive commands
-        output_destroy_commands
+        output_destroy_commands(app_name)
       end
     end
 
@@ -180,7 +180,7 @@ module HerokuRails
         end
 
         # display the destructive commands
-        output_destroy_commands
+        output_destroy_commands(app_name)
       end
     end
 
@@ -213,7 +213,7 @@ module HerokuRails
         end
 
         # display the destructive commands
-        output_destroy_commands
+        output_destroy_commands(app_name)
       end
     end
 

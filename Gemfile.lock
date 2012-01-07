@@ -27,6 +27,7 @@ GEM
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     mime-types (1.17.2)
+    rake (0.8.7)
     rbx-require-relative (0.0.5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -63,6 +64,7 @@ DEPENDENCIES
   autotest
   growl-glue
   heroku-rails!
+  rake (= 0.8.7)
   rspec (~> 2.0)
   ruby-debug
   ruby-debug19
