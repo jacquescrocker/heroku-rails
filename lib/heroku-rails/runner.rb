@@ -262,18 +262,18 @@ module HerokuRails
     end
 
     def destroy_command(*args)
-      puts args.join(' ')
+      # puts args.join(' ')
       @destroy_commands ||= []
-      @destroy_commands << @destroy_commands
+      @destroy_commands << args.join(' ')
     end
 
     def output_destroy_commands(app)
       puts "The #{app} had a few things removed from the heroku.yml."
-      puts "If they are no longer neccessary, then run the following commands:"
+      puts "If they are no longer neccessary, then run the following commands:\n\n"
       (@destroy_commands || []).each do |destroy_command|
         puts destroy_command
       end
-      puts "these commands may cause data loss so make sure you know that these are necessary"
+      puts "\n\nthese commands may cause data loss so make sure you know that these are necessary"
       # clear destroy commands
       @destroy_commands = []
     end
