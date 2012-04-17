@@ -9,7 +9,7 @@ module HerokuRails
 
     def authorize
       return if @heroku
-      @heroku = Heroku::Client.auth
+      @heroku = Heroku::Auth.client
     end
 
     # add a specific environment to the run list
