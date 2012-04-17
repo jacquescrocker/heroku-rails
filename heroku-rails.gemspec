@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "heroku-rails"
-  s.version = "0.4.2"
+  s.version = "0.4.4"
 
   s.authors = ["Elijah Miller", "Glenn Roberts", "Jacques Crocker"]
   s.summary = "Deployment and configuration tools for Heroku/Rails"
@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     "CHANGELOG"
   ]
 
-  s.add_runtime_dependency "heroku", ">= 1.11.0"
+  s.add_runtime_dependency "heroku", ">= 2.24.1"
   s.add_development_dependency "rspec", "~> 2.0"
 end
 
