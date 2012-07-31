@@ -8,20 +8,7 @@ module HerokuRails
     end
 
     def authorize
-      return if @heroku
-
-      # setup heroku username and password so we can start up a heroku client
-      credentials_path = File.expand_path("~/.heroku/credentials")
-
-      # read in the username,password so we can build the client
-      if File.exists?(credentials_path)
-        auth = File.read(credentials_path)
-        username, password = auth.split("\n")
-        @heroku = Heroku::Client.new(username, password)
-      else
-        puts "Heroku not set up. Run `heroku list` in order to input your credentials and try again"
-        exit(1)
-      end
+      @heroku ||= Heroku::Auth.client
     end
 
     # add a specific environment to the run list
@@ -36,7 +23,7 @@ module HerokuRails
 
     # setup apps (create if necessary)
     def setup_apps
-      authorize unless @heroku
+      authorize
 
       # get a list of all my current apps on Heroku (so we don't create dupes)
       @my_apps = @heroku.list.map{|a| a.first}
@@ -52,7 +39,7 @@ module HerokuRails
 
     # setup the stacks for each app (migrating if necessary)
     def setup_stacks
-      authorize unless @heroku
+      authorize
       each_heroku_app do |heroku_env, app_name, repo|
         # get the intended stack setting
         stack = @config.stack(heroku_env)
@@ -70,7 +57,7 @@ module HerokuRails
 
     # setup the list of collaborators
     def setup_collaborators
-      authorize unless @heroku
+      authorize
       each_heroku_app do |heroku_env, app_name, repo|
         # get the remote info about the app from heroku
         heroku_app_info = @heroku.info(app_name) || {}
@@ -110,7 +97,7 @@ module HerokuRails
 
     # setup configuration
     def setup_config
-      authorize unless @heroku
+      authorize
       each_heroku_app do |heroku_env, app_name, repo|
         # get the configuration that we are aiming towards
         new_config = @config.config(heroku_env)
@@ -144,7 +131,7 @@ module HerokuRails
 
     # setup the addons for heroku
     def setup_addons
-      authorize unless @heroku
+      authorize
       each_heroku_app do |heroku_env, app_name, repo|
         # get the addons that we are aiming towards
         addons = @config.addons(heroku_env)
@@ -186,7 +173,7 @@ module HerokuRails
 
     # setup the domains for heroku
     def setup_domains
-      authorize unless @heroku
+      authorize
       each_heroku_app do |heroku_env, app_name, repo|
         # get the domains that we are aiming towards
         domains = @config.domains(heroku_env)

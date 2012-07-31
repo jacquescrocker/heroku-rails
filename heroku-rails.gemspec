@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     "CHANGELOG"
   ]
 
-  s.add_runtime_dependency "heroku", ">= 1.11.0"
+  s.add_runtime_dependency "heroku", ">= 2.15.0"
   s.add_development_dependency "rspec", "~> 2.0"
   s.add_development_dependency "rake", "~> 0.9.2"
 end
