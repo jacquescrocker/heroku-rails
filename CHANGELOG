@@ -1,5 +1,11 @@
 Heroku Rails
 
+v0.4.4
+============================================
+Fix heroku rake
+Upgrade heroku authorization
+Fix deprecation warning
+
 v0.2.0
 ============================================
 Added Heroku Settings tasks, and rails generators
