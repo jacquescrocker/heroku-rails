@@ -10,14 +10,9 @@ module HerokuRails
     def authorize
       return if @heroku
 
-      # setup heroku username and password so we can start up a heroku client
-      credentials_path = File.expand_path("~/.heroku/credentials")
-
       # read in the username,password so we can build the client
-      if File.exists?(credentials_path)
-        auth = File.read(credentials_path)
-        username, password = auth.split("\n")
-        @heroku = Heroku::Client.new(username, password)
+      if credential = Heroku::Auth.read_credentials
+        @heroku = Heroku::Client.new(*credential)
       else
         puts "Heroku not set up. Run `heroku list` in order to input your credentials and try again"
         exit(1)
